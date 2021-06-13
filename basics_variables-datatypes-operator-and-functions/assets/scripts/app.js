@@ -8,16 +8,7 @@ function add() {
     const userInput = getUserInput();
     currentResult += userInput;
     setUserOutput('+', currentResult, userInput);
-
-    const logEntry = {
-        operator: 'ADD',
-        value: userInput
-    };
-
-    log.push(logEntry);
-
-    // user console.log to help with debugging
-    console.log(log);
+    writeToLog('ADD', oldResult, userInput, currentResult);
 }
 
 function subtract() {
@@ -25,6 +16,7 @@ function subtract() {
     const userInput = getUserInput();
     currentResult -= userInput;
     setUserOutput('-', currentResult, userInput);
+    writeToLog('SUB', oldResult, userInput, currentResult);
 }
 
 function multiply() {
@@ -32,6 +24,7 @@ function multiply() {
     const userInput = getUserInput();
     currentResult += userInput;
     setUserOutput('*', currentResult, userInput);
+    writeToLog('MUL', oldResult, userInput, currentResult);
 }
 
 function divide() {
@@ -39,6 +32,7 @@ function divide() {
     const userInput = getUserInput();
     currentResult /= userInput;
     setUserOutput('/', currentResult, userInput);
+    writeToLog('DIV', oldResult, userInput, currentResult);
 }
 
 function getUserInput() {
@@ -51,6 +45,20 @@ function getUserInput() {
 function setUserOutput(operator, oldResult, userInput) {
     const equation = `${currentResult} ${operator} ${userInput} =`;
     this.outputResult(currentResult, equation);
+}
+
+function writeToLog(operator, oldResult, userInput, newResult) {
+    const logEntry = {
+        operator: operator,
+        userInput: userInput,
+        oldResult: oldResult,
+        newResult: newResult
+    };
+
+    log.push(logEntry);
+
+    // user console.log to help with debugging
+    console.log(log);
 }
 
 addBtn.addEventListener('click', /* the button event */ add /* the js function to execute */);
