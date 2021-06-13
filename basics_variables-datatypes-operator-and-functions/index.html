@@ -20,6 +20,11 @@
       before the page renders 2. You cannot use a 'self-closing' script tag  
     <script src="assets/scripts/app.js"></script>
     -->
+
+    <!-- using the defer attribute we can download the script, but
+      defer execution until after HTML is loaded-->
+    <script src="assets/scripts/vendor.js" defer></script>
+    <script src="assets/scripts/app.js" defer></script>
   </head>
   <body>
     <header>
@@ -40,8 +45,6 @@
       <h2>Result: <span id="current-result">0</span></h2>
     </section>
     
-    <!-- Source scripts in the body to have the page render before the script executes -->
-    <script src="assets/scripts/vendor.js"></script>
-    <script src="assets/scripts/app.js"></script>
+
   </body>
 </html>
