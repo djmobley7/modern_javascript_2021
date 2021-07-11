@@ -13,12 +13,12 @@ let gameStarted = false;
 
 const getPlayerChoice = function() {
     const selection = prompt('rock, paper or scissors', '').toUpperCase();
-    if (selection !== ROCK && 
-        selection !== PAPER &&
-        selection !== SCISSORS) {
-            alert(`Invalid choice, using default ${DEFAULT_CHOICE}`);
-            return DEFAULT_CHOICE;
-        }
+    // if (selection !== ROCK && 
+    //     selection !== PAPER &&
+    //     selection !== SCISSORS) {
+    //         alert(`Invalid choice, using default ${DEFAULT_CHOICE}`);
+    //         return;
+    //     }
     return selection;
 }
 
@@ -32,7 +32,8 @@ const getComputerChoice = function() {
     return SCISSORS;
 }
 
-const getGameResult = (playerChoice, computerChoice) => { // using arrow function syntax
+// uses default parameter for playerChoice, only works for undef (other falsey values)
+const getGameResult = (computerChoice, playerChoice = DEFAULT_CHOICE) => { // using arrow function syntax
     let result = RESULT_COMPUTER_WINS;
 
     if (playerChoice === computerChoice) {
@@ -47,7 +48,7 @@ const getGameResult = (playerChoice, computerChoice) => { // using arrow functio
     return result;
 }
 
-startGameBtn.addEventListener('click', function() {
+startGameBtn.addEventListener('click', function() { // or () => {
     if (gameStarted) {
         return;
     }
@@ -60,8 +61,23 @@ startGameBtn.addEventListener('click', function() {
     const computerChoice = getComputerChoice();
     console.log(`Computer choice: ${computerChoice}`);
 
-    const gameResult = getGameResult(playerChoice, computerChoice);
+    let gameResult;
+    if (playerChoice) {
+        gameResult = getGameResult(computerChoice, playerChoice);
+    } else {
+        gameResult = getGameResult(computerChoice);
+    } 
     console.log(gameResult);
+
+    let message = `You picked ${playerChoice || DEFAULT_CHOICE}, computer picked ${computerChoice}: `;
+    if (gameResult === RESULT_DRAW) {
+          message += "You had a draw";
+    } else if (gameResult === RESULT_PLAYER_WINS) {
+        message += "You won";
+    } else {
+        message += "You lost";
+    }
+    alert(message);
 
     gameStarted = false;
 })
@@ -94,3 +110,30 @@ startGameBtn.addEventListener('click', function() {
 // }
 
 // person.greet();
+
+// not related to the game
+
+
+// function taking a callback (handler) and using variable args
+const sum = (cb, ...nums) => {
+    let sum = 0;
+    for (const num of nums) {
+        sum += num;
+    }
+    cb(sum);
+}
+
+const showSum = (sum) =>  {
+    alert(sum);
+}
+
+sum(showSum, 1, 2, 3);
+
+// deprecated way of using 'rest' operator, before ES6
+const sum2 = function() {
+    let sum = 0;
+    for (const num of arguments) {
+        sum += num;
+    }
+    return sum;
+}
